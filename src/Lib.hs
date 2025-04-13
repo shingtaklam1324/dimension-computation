@@ -3,6 +3,7 @@ module Lib (displayIrrepsPartitions) where
 
 import Control.Monad (forM_)
 import Math.Combinat.Partitions.Integer (partitions, toExponentialForm, fromPartition)
+import Data.List (sortOn)
 
 
 partitionLists :: Int -> Int -> [[(Int, Int)]]
@@ -25,7 +26,7 @@ dimension :: [(Int, Int)] -> Int
 dimension = sum . map (\(_, b) -> b * b)
 
 irrepsPartitionsWithDimensions :: Int -> [([(Int, Int)], Int)]
-irrepsPartitionsWithDimensions = map (\l -> (l, dimension l)) . irrepsPartitions
+irrepsPartitionsWithDimensions = sortOn snd . map (\l -> (l, dimension l)) . irrepsPartitions
 
 log10 :: Int -> Int
 log10 x | x < 10 = 1
@@ -36,3 +37,4 @@ displayIrrepsPartitions n = do
   let irreps = irrepsPartitionsWithDimensions n
   forM_ irreps $ \(l, d) -> do
     putStrLn $ show d ++ replicate (12 - log10 d) ' ' ++ showPairs l
+  putStrLn $ "Total number of irreps: " ++ show (length irreps)
