@@ -1,12 +1,12 @@
+{-# LANGUAGE TupleSections #-}
 module Lib (displayIrrepsPartitions) where
 
-import Data.List (intersperse)
 import Control.Monad (forM_)
 import Math.Combinat.Partitions.Integer (partitions, toExponentialForm, fromPartition)
 
 
 partitionLists :: Int -> Int -> [[(Int, Int)]]
-partitionLists a = map (map ((,) a) . fromPartition) . partitions
+partitionLists a = map (map (a,) . fromPartition) . partitions
 
 irrepsPartitions :: Int -> [[(Int, Int)]]
 irrepsPartitions = map concat . concatMap (productList . map (uncurry partitionLists) . toExponentialForm) . partitions
@@ -19,7 +19,7 @@ showPair :: (Int, Int) -> String
 showPair (a, b) = show a ++ "^" ++ show b
 
 showPairs :: [(Int, Int)] -> String
-showPairs = concat . intersperse " " . map showPair
+showPairs = unwords . map showPair
 
 dimension :: [(Int, Int)] -> Int
 dimension = sum . map (\(_, b) -> b * b)

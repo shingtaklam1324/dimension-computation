@@ -1,6 +1,6 @@
 module Main (main) where
 
-import System.IO
+import System.IO ( hFlush, stdout )
 
 import Lib (displayIrrepsPartitions)
 
