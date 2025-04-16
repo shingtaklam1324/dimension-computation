@@ -3,7 +3,7 @@ module Lib (displayIrrepsPartitions) where
 
 import Control.Monad (forM_)
 import Math.Combinat.Partitions.Integer (partitions, toExponentialForm, fromPartition)
-import Data.List (sortOn)
+import Data.List (sortOn, intercalate)
 
 
 partitionLists :: Int -> Int -> [[(Int, Int)]]
@@ -20,7 +20,7 @@ showPair :: (Int, Int) -> String
 showPair (a, b) = show a ++ "^" ++ show b
 
 showPairs :: [(Int, Int)] -> String
-showPairs = unwords . map showPair
+showPairs = intercalate " + " . map showPair
 
 dimension :: [(Int, Int)] -> Int
 dimension = sum . map (\(_, b) -> b * b)
